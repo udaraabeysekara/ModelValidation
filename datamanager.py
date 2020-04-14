@@ -91,7 +91,7 @@ class Data_Manager:
     df = df.loc[(df['new_death'] != 'NA')]
     return np.array(df.Date.values), np.array(df.new_death.values)
 
-  def Get_Pupulation(self):
+  def Get_Population(self):
     if (self.country == ''):
       print('Error : Set the country using Set_Country()')
       return 0
