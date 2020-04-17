@@ -31,11 +31,11 @@ class Data_Manager:
   def Set_Province_State(self, province_state):
     self.province_state = province_state
 
-  def Set_Min_Confirmed():
-    self.min_confirmed = min_confirmed
+  def Set_Min_Confirmed(self, min_param):
+    self.min_confirmed = min_param
 
-  def Set_Min_Deaths():
-    self.min_deaths = min_deaths
+  def Set_Min_Deaths(self, min_param):
+    self.min_deaths = min_param
 
   def Get_Total_Confirm(self):
     if (self.country == ''):
@@ -45,8 +45,9 @@ class Data_Manager:
       print('Error : Set the province or state using Set_Country()')
       print('If there is no state set it to NA ')
       return 0
-    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state)]
+    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state) &  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths) ]
     df = df.loc[df['Total_confirm'] != 'NA']
+    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
     return np.array(df.Date.values), np.array(df.Total_confirm.values)
 
     
@@ -59,8 +60,9 @@ class Data_Manager:
       print('If there is no state set it to NA ')
       return 0
 
-    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state)]
+    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state) &  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths)]
     df = df.loc[(df['new_confirm'] != 'NA')]
+    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
     return np.array(df.Date.values), np.array(df.new_confirm.values)
 
 
@@ -73,8 +75,9 @@ class Data_Manager:
       print('If there is no state set it to NA ')
       return 0
 
-    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state)]
+    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state)&  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths)]
     df = df.loc[(df['Total_death'] != 'NA')]
+    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
     return np.array(df.Date.values), np.array(df.Total_death.values)
 
 
@@ -87,8 +90,9 @@ class Data_Manager:
       print('If there is no state set it to NA ')
       return 0
 
-    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state)]
+    df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state) &  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths) ]
     df = df.loc[(df['new_death'] != 'NA')]
+    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
     return np.array(df.Date.values), np.array(df.new_death.values)
 
   def Get_Population(self):

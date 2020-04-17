@@ -11,6 +11,8 @@
 #5) Each class and function should have an explanation
 
 import numpy as np
+from scipy.optimize import curve_fit
+
 class Model:
   def __init__(self, time, count, initial_parameter, minimum, maximum, units):
     ###Mandatory inputs
@@ -26,12 +28,23 @@ class Model:
     self.minimum = minimum
     self.maximum = maximum
     self.units = units
+    #self.model_func(initial_parameter, initial_parameter, initial_parameter)
 
-#This is a fake model that fits a linear function between x=time and y=count
-#The function returns an array with the model output y_hat
-#We have to add a function per every model
-  def linear_fit(self):
-    m,c = np.polyfit(self.time, self.count, 1)   
-    return m*self.time + c
+#This is a simple model just for testing. Should not be used for real modelng.
+  def model_func(self, x, Ro,alpha):
+    y_return = [Ro]
+    for x_val in x[1:]:
+      y = [Ro]
+      for i in range(1,int(x_val)):
+        y.append(y[-1]+Ro*np.power(alpha,i))
+      y_return.append(y[-1])
+    return y_return
+
+  def Fake_SIR_Model(self):
+    popt, pcov = curve_fit(self.model_func, self.time, self.count)
+    y_modeled = self.model_func(self.time ,popt[0],popt[1])
+    y_err_up = self.model_func(self.time ,popt[0]+pcov[0,0]**0.5,popt[1]+pcov[1,1]**0.5)
+    y_err_down = self.model_func(self.time ,popt[0]-pcov[0,0]**0.5,popt[1]-pcov[1,1]**0.5)
+    return y_modeled, y_err_down, y_err_up
 
 
