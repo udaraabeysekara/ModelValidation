@@ -53,18 +53,22 @@ class Data_Augmentation:
       return np.diff(self.count,prepend=[0])
   
   def Resample(self,date_format='%Y-%m-%d',resample_dir='up'):
-      '''
-      Resamples the input array to scalar length (.5 or 2). Takes two arguments: 
+    '''
+    Resamples the input array to scalar length (.5 or 2). Takes two arguments: 
           1. Source date format, ie: '%Y-%m-%d'
           2. Target resample scalar, ie: up=2, down=.5.
-      Returns new time and count indexes as np.arrays
-      '''
+    Nans induced by upsampling are filled with linear interpolation, downsamples are returned as sums
+    Returns new time and count indexes as np.arrays
+    '''
     temp_df = pd.DataFrame({'count':self.count,
                            'time':self.time})
-    temp_df['time'] = pd.to_datetime(temp_df['Date'], format=date_format)
+    temp_df['time'] = pd.to_datetime(temp_df['time'], format=date_format)
     temp_df = temp_df.set_index('time')
     if resample_dir == 'up':
-        return test_df_index.resample('12H').bfill()[0:(len(test_df_index)*2)]
+      temp_df=temp_df.resample('12H').asfreq()
+      temp_df['count']=temp_df['count'].astype(float)
+      temp_df['count']=temp_df['count'].interpolate(method='linear')
+      return [np.array(temp_df['count']),np.array(temp_df.index)]
     elif resample_dir == 'down':
-        return test_df_index.resample('2D',closed='right').sum()
+      return temp_df.resample('2D').sum()
       
