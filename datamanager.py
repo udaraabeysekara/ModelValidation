@@ -47,7 +47,6 @@ class Data_Manager:
       return 0
     df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state) &  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths) ]
     df = df.loc[df['Total_confirm'] != 'NA']
-    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
     return np.array(df.Date.values), np.array(df.Total_confirm.values)
 
     
@@ -62,7 +61,7 @@ class Data_Manager:
 
     df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state) &  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths)]
     df = df.loc[(df['new_confirm'] != 'NA')]
-    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
+    #df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
     return np.array(df.Date.values), np.array(df.new_confirm.values)
 
 
@@ -77,7 +76,7 @@ class Data_Manager:
 
     df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state)&  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths)]
     df = df.loc[(df['Total_death'] != 'NA')]
-    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
+    #df['Date'] = Get_Whatever_Date(df['Date'])
     return np.array(df.Date.values), np.array(df.Total_death.values)
 
 
@@ -92,7 +91,7 @@ class Data_Manager:
 
     df = self.data.loc[(self.data['Country_Region'] == self.country) & (self.data['Province_State'] == self.province_state) &  (self.data['Total_confirm'] >= self.min_confirmed) &  (self.data['Total_death'] >= self.min_deaths) ]
     df = df.loc[(df['new_death'] != 'NA')]
-    df['Date'] = pd.to_datetime(df['Date'], format="%m/%d/%y")
+    #df['Date'] = Get_Whatever_Date(df['Date'])
     return np.array(df.Date.values), np.array(df.new_death.values)
 
   def Get_Population(self):
@@ -141,4 +140,16 @@ class Data_Manager:
       print('Warning !!!!!!!!')
       print('No States for the selecte country')
     return state
+      
+
+
+
+
+
+
+
+
+
+
+
 

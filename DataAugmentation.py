@@ -37,7 +37,16 @@ class Data_Augmentation:
   def Gaussian_Augmentation(self):
      noise = np.random.normal(self.parameter[0], self.parameter[1], self.time.size)	       
      return self.count+noise
+ 
+  def Percent_Increase(self):
+    output = [0]
+    for steps in range(len(self.count)-1):
+        if steps<len(self.count):
+            denom = self.count[steps]
+            if denom==0:
+                denom=1
+            output.append(self.count[steps+1]/denom)
+    return np.array(output)
 
-
-
-
+  def Estimate_Derivative(self):
+      return np.diff(self.count,prepend=[0])

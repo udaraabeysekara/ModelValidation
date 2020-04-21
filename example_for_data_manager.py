@@ -6,13 +6,15 @@ import datamanager as DM
 
 ##This part shows how to use the data manager to load new data and explore data
 #Load data
-test = DM.Data_Manager('/Users/u0979082/Documents/COVID19Research/Evan_Dataset_Code_scrubbed/COVID19_country_04-02-2020.csv')
+test = DM.Data_Manager('/Users/u6026797/Desktop/COVID19_country_04-16-2020.csv')
 
 #Lets Look at the available countries
 print(test.Get_Available_Countries())
 
 #France is available lets set the country to France
-test.Set_Country('France')
+test.Set_Country('Belgium')
+
+x = test.Get_Total_Confirm
 
 #Now Look at available State
 print(test.Get_Province_State())
@@ -24,7 +26,7 @@ test.Set_Province_State('Main')
 #Population density
 print(test.Get_Pop_Density())
 #Total population
-print(test.Get_Pupulation())
+print(test.Get_Population())
 
 #Now you can pull data in different formats. 
 #All outputs are two numpy arrays, time and counts

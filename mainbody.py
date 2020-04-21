@@ -6,7 +6,7 @@ import datamanager as DM
 
 ##This part shows how to use the data manager to load new data and explore data
 #Load data
-test = DM.Data_Manager('/Users/u0979082/Documents/COVID19Research/Evan_Dataset_Code_scrubbed/COVID19_country_04-02-2020.csv')
+test = DM.Data_Manager('C:\\Users\\u6026797\\Desktop\\COVID19_country_04-16-2020.csv')
 
 #Lets Look at the available countries
 print(test.Get_Available_Countries())
