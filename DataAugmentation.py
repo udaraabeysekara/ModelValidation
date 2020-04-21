@@ -11,6 +11,7 @@
 #5) Each class and function should have an explanation
 
 import numpy as np
+import pandas as pd
 class Data_Augmentation:
   def __init__(self, time, count, parameter, minimum, maximum,units):
     ###Mandatory inputs
@@ -50,3 +51,20 @@ class Data_Augmentation:
 
   def Estimate_Derivative(self):
       return np.diff(self.count,prepend=[0])
+  
+  def Resample(self,date_format='%Y-%m-%d',resample_dir='up'):
+      '''
+      Resamples the input array to scalar length (.5 or 2). Takes two arguments: 
+          1. Source date format, ie: '%Y-%m-%d'
+          2. Target resample scalar, ie: up=2, down=.5.
+      Returns new time and count indexes as np.arrays
+      '''
+    temp_df = pd.DataFrame({'count':self.count,
+                           'time':self.time})
+    temp_df['time'] = pd.to_datetime(temp_df['Date'], format=date_format)
+    temp_df = temp_df.set_index('time')
+    if resample_dir == 'up':
+        return test_df_index.resample('12H').bfill()[0:(len(test_df_index)*2)]
+    elif resample_dir == 'down':
+        return test_df_index.resample('2D',closed='right').sum()
+      
