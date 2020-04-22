@@ -70,5 +70,6 @@ class Data_Augmentation:
       temp_df['count']=temp_df['count'].interpolate(method='linear')
       return [np.array(temp_df['count']),np.array(temp_df.index)]
     elif resample_dir == 'down':
-      return temp_df.resample('2D').sum()
+      temp_df=temp_df.resample('2D').sum()  
+      return [np.array(temp_df['count']),np.array(temp_df.index)]
       
