@@ -13,7 +13,7 @@
 import numpy as np
 import pandas as pd
 class Data_Augmentation:
-  def __init__(self, time, count, parameter, minimum, maximum,units):
+  def __init__(self, time, count, parameter=1, minimum=1, maximum=1,units=1):
     ###Mandatory inputs
     #time  -- the time time series, which is the independent variable of a model also known as x
     #count -- the observed count in each time bin, which is the dependent variable
@@ -73,3 +73,20 @@ class Data_Augmentation:
       temp_df=temp_df.resample('2D').sum()  
       return [np.array(temp_df['count']),np.array(temp_df.index)]
       
+  def Ts_Clip(self,theta=0):
+      '''
+      Truncates an np.array based on some magnitude theta.
+
+      Parameters
+      ----------
+      theta : INT, optional
+          DESCRIPTION. The default is 0.
+
+      Returns
+      -------
+      new time and count indexes as np.arrays
+      '''
+      temp_df = pd.DataFrame({'count':self.count,
+                           'time':self.time})
+      temp_df = temp_df[temp_df['count']>theta]
+      return [np.array(temp_df['count']),np.array(temp_df['time'])]
